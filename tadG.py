@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 """ Programa para teste parser
 
@@ -22,8 +21,10 @@ FF FF FF - Consumo KWh do Reativo Indutivo - FF por não ter medidor!
 0A 0C - Escopo e índice do capacitivo
 FF FF FF - Consumo KWh do Capacitivo - FF por não ter medidor!
 33 63 - CRC
-00 - BCC (!Inativo!) """
+00 - BCC (!Inativo!) 
 
 import serial
 
-ser = serial.Serial(port="COM15",baudrate=9600)
+ser = serial.Serial(port="COM15",baudrate=9600)"""
+
+print ("HEllo")
