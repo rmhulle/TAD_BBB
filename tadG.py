@@ -1,4 +1,7 @@
 
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+
 """ Programa para teste parser
 
 54 41 44 30 00 1C 00 00 00 00 AA 55 00 13 28 72 60 05 0A 02 00 00 01 05 0A 07 FF FF FF 05 0A 0C FF FF FF 33 63 00 
@@ -21,11 +24,42 @@ FF FF FF - Consumo KWh do Reativo Indutivo - FF por não ter medidor!
 0A 0C - Escopo e índice do capacitivo
 FF FF FF - Consumo KWh do Capacitivo - FF por não ter medidor!
 33 63 - CRC
-00 - BCC (!Inativo!) 
+00 - BCC (!Inativo!) """
 
 import serial
+import time
 
-ser = serial.Serial(port="COM15",baudrate=9600)"""
+medidor = serial.Serial('/dev/ttyUSB0', 9600)
 
-print ("HEllo")
-print("funcionou")
+while True:
+	time.sleep(1)
+	if medidor.isWaiting()> 0:
+		if (medidor.read(3)=="TAD"):
+			versao = medidor.read(1)
+			byte_livre_1 = medidor.read(1)
+			rssi = medidor.read(1)
+			byte_livre_2 = medidor.read(4)
+			preambulo = medidor.read(2)
+			cdc = medidor.read(5)
+			tam_ativo = medidor.read(1)
+			escopo.ativo = medidor.read(2)
+			consumo.ativo = medidor.read(ord(tam_ativo) - 2)
+			tam_reativo = medidor.read(1)
+			escopo_reativo = medidor.read(2)
+			consumo_reativo = medidor.read(ord(tam_reativo) - 2)
+			tam_capacitivo = medidor.read(1)
+			escopo_capacitivo = medidor.read(2)
+			consumo_capacitivo = medidor.read(ord(tam_capacitivo) - 2)
+			crc = medidor.read(2)
+			bcc = medidor.read(1)
+			print ( "Achou TAD")
+		else : 
+			print ( "Não Achou TAD")
+	
+
+		
+
+	
+
+
+
