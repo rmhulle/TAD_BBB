@@ -28,3 +28,4 @@ import serial
 ser = serial.Serial(port="COM15",baudrate=9600)"""
 
 print ("HEllo")
+print("funcionou")
