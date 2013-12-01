@@ -53,7 +53,7 @@ while True:
 			bcc = medidor.read(1)
 			print ( "Achou TAD")
 		else : 
-			medidor.flushInput()
+			print(medidor.read(1))
 			print ( "Não Achou TAD")
 	
 
