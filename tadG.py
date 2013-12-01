@@ -33,7 +33,7 @@ medidor = serial.Serial('/dev/ttyUSB0', 9600)
 
 while True:
 	time.sleep(1)
-	if medidor.isWaiting()> 0:
+	if medidor.inWaiting()> 0:
 		if (medidor.read(3)=="TAD"):
 			versao = medidor.read(1)
 			byte_livre_1 = medidor.read(1)
