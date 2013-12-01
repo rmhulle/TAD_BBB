@@ -3,7 +3,7 @@
 
 """ Programa para teste parser
 
-54 41 44 30 00 1C 00 00 00 00 AA 55 00 13 28 72 60 05 0A 02 00 00 01 05 0A 07 FF FF FF 05 0A 0C FF FF FF 33 63 00 
+54 41 44 30 00 1C 00 00 00 00 AA 55 00 13 28 72 60 05 0A 02  00 00 0105 0A 07 FF FF FF 05 0A 0C FF FF FF 33 63 00 
 54414430001C00000000AA550013287260050A02000001050A07FFFFFF050A0CFFFFFF336300 
 
 54 41 44 - Cabeçalho "TAD"
@@ -31,9 +31,10 @@ import time
 medidor = serial.Serial('/dev/ttyUSB0', 9600)
 
 while True:
-	time.sleep(1)
+	
 	if medidor.inWaiting()> 0:
-		if (medidor.read(1)=="T"):
+		primeira = medidor.read(1)
+		if (primeira=="T"):
 			if (medidor.read(1)=="A"):
 				if medidor.read(1)=="D":
 					versao = medidor.read(1)
@@ -55,6 +56,7 @@ while True:
 					bcc = medidor.read(1)
 					print ( "Achou TAD")
 		else : 
+			print (primeira)
 			print(medidor.inWaiting())
 			print ( "Não Achou TAD")
 	
