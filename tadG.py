@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 
@@ -42,8 +41,8 @@ while True:
 			preambulo = medidor.read(2)
 			cdc = medidor.read(5)
 			tam_ativo = medidor.read(1)
-			escopo.ativo = medidor.read(2)
-			consumo.ativo = medidor.read(ord(tam_ativo) - 2)
+			escopo_ativo = medidor.read(2)
+			consumo_ativo = medidor.read(ord(tam_ativo) - 2)
 			tam_reativo = medidor.read(1)
 			escopo_reativo = medidor.read(2)
 			consumo_reativo = medidor.read(ord(tam_reativo) - 2)
@@ -54,6 +53,7 @@ while True:
 			bcc = medidor.read(1)
 			print ( "Achou TAD")
 		else : 
+			medidor.flushInput()
 			print ( "Não Achou TAD")
 	
 
