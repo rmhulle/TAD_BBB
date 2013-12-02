@@ -27,8 +27,19 @@ FF FF FF - Consumo KWh do Capacitivo - FF por não ter medidor!
 
 import serial
 import time
+import MySQLdb
+
+
+
+
+
+
 
 medidor = serial.Serial('/dev/ttyUSB0', 9600)
+print("Serial medidor Aberta")
+con = MySQLdb.connect(host='localhost', user='root', passwd='zaruc',db='TAD')
+c = con.cursor()
+print("Banco De Dados concectado")
 
 while True:
 	
@@ -53,15 +64,20 @@ while True:
 					escopo_capacitivo = medidor.read(2)
 					consumo_capacitivo = medidor.read(ord(tam_capacitivo) - 2)
 					crc = medidor.read(2)
-					bcc = medidor.read(1)
+					c.execute("INSERT INTO `leitura` VALUES(ID,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)"%(cdc,versao,rssi,consumo_ativo,consumo_capacitivo,consumo_reativo))
+					con.commit()
 					print ( "Achou TAD")
 		else : 
 			print (primeira)
 			print(medidor.inWaiting())
 			print ( "Não Achou TAD")
-	
 
-		
+
+"""c.execute("INSERT INTO `leitura` VALUES(30,223,21,23,24,CURRENT_TIMESTAMP)")"""
+"""c.execute("INSERT INTO `leitura` VALUES(ID,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)"%(2,3,4,5,6,7))"""
+"""c.execute("UPDATE `leitura` SET  `versao` =  '4' WHERE  `leitura`.`serial` =3")"""
+"""c.execute('SELECT * FROM leitura WHERE serial=%s',(3))"""
+
 
 	
 
