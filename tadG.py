@@ -36,7 +36,7 @@ import MySQLdb
 
 
 medidor = serial.Serial('/dev/ttyUSB0', 9600)
-print("Serial medidor Aberta")
+print("Serial medidor")
 con = MySQLdb.connect(host='localhost', user='root', passwd='zaruc',db='TAD')
 c = con.cursor()
 print("Banco De Dados concectado")
@@ -44,41 +44,50 @@ print("Banco De Dados concectado")
 while True:
 	
 	if medidor.inWaiting()> 0:
-		primeira = medidor.read(1)
-		if (primeira=="T"):
-			if (medidor.read(1)=="A"):
-				if medidor.read(1)=="D":
-					versao = medidor.read(1)
-					byte_livre_1 = medidor.read(1)
-					rssi = medidor.read(1)
-					byte_livre_2 = medidor.read(4)
-					preambulo = medidor.read(2)
-					cdc = medidor.read(5)
-					tam_ativo = medidor.read(1)
-					escopo_ativo = medidor.read(2)
-					consumo_ativo = medidor.read(ord(tam_ativo) - 2)
-					tam_reativo = medidor.read(1)
-					escopo_reativo = medidor.read(2)
-					consumo_reativo = medidor.read(ord(tam_reativo) - 2)
-					tam_capacitivo = medidor.read(1)
-					escopo_capacitivo = medidor.read(2)
-					consumo_capacitivo = medidor.read(ord(tam_capacitivo) - 2)
-					crc = medidor.read(2)
-					c.execute("INSERT INTO `leitura` VALUES(ID,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)"%(cdc,versao,rssi,consumo_ativo,consumo_capacitivo,consumo_reativo))
-					con.commit()
-					print ( "Achou TAD")
-		else : 
-			print (primeira)
-			print(medidor.inWaiting())
-			print ( "Não Achou TAD")
+			primeira = medidor.read(1)
+			if (primeira=="T"):
+				if (medidor.read(1)=="A"):
+					if medidor.read(1)=="D":
+						versao = medidor.read(1)
+						byte_livre_1 = medidor.read(1)
+						rssi = medidor.read(1)
+						byte_livre_2 = medidor.read(4)
+						preambulo = medidor.read(2)
+						cdc = medidor.read(5)
+						tam_ativo = medidor.read(1)
+						escopo_ativo = medidor.read(2)
+						consumo_ativo = medidor.read(ord(tam_ativo) - 2)
+						tam_reativo = medidor.read(1)
+						escopo_reativo = medidor.read(2)
+						consumo_reativo = medidor.read(ord(tam_reativo) - 2)
+						tam_capacitivo = medidor.read(1)
+						escopo_capacitivo = medidor.read(2)
+						consumo_capacitivo = medidor.read(ord(tam_capacitivo) - 2)
+						crc = medidor.read(2)
+						if (c.execute('SELECT * FROM leitura WHERE serial=%r'%(cdc))==1):
+							c.execute("UPDATE `leitura` SET  `c_ativo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_ativo,cdc))
+							c.execute("UPDATE `leitura` SET  `c_reativo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_reativo,cdc))
+							c.execute("UPDATE `leitura` SET  `c_capacitivo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_capacitivo,cdc))
+							c.execute("UPDATE `leitura` SET  `rssi` = %r WHERE  `leitura`.`serial` =%r"%(rssi,cdc))
+							c.execute("UPDATE `leitura` SET  `versao` = %r WHERE  `leitura`.`serial` =%r"%(versao,cdc))
+							con.commit()
+							print ( "TAD  %f Atualizado com sucesso"%(cdc))	
+						else:	
+							c.execute("INSERT INTO `leitura` VALUES(ID,%r,%r,%r,%r,%r,%r,CURRENT_TIMESTAMP)"%(cdc,versao,rssi,consumo_ativo,consumo_capacitivo,consumo_reativo))
+							con.commit()
+							print ( "TAD  %f inserido com sucesso"%(cdc))						
+						
+
+						
+			else : 
+				print ( "Não Achou TA")
 
 
 """c.execute("INSERT INTO `leitura` VALUES(30,223,21,23,24,CURRENT_TIMESTAMP)")"""
 """c.execute("INSERT INTO `leitura` VALUES(ID,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)"%(2,3,4,5,6,7))"""
-"""c.execute("UPDATE `leitura` SET  `versao` =  '4' WHERE  `leitura`.`serial` =3")"""
 """c.execute('SELECT * FROM leitura WHERE serial=%s',(3))"""
-
-
+"""c.execute("UPDATE `leitura` SET  `c_ativo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_reativo,cdc))"""
+"""c.execute('SELECT * FROM leitura WHERE serial=%r'%(cdc))"""
 	
 
 
