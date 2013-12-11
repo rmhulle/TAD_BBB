@@ -70,10 +70,11 @@ while True:
 							c.execute("UPDATE `leitura` SET  `c_capacitivo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_capacitivo,cdc))
 							c.execute("UPDATE `leitura` SET  `rssi` = %r WHERE  `leitura`.`serial` =%r"%(rssi,cdc))
 							c.execute("UPDATE `leitura` SET  `versao` = %r WHERE  `leitura`.`serial` =%r"%(versao,cdc))
+							c.execute("UPDATE `leitura` SET  `serial_blob` = %s WHERE  `leitura`.`serial` =%r"%(cdc,cdc))
 							con.commit()
 							print ( "TAD  %f Atualizado com sucesso"%(cdc))	
 						else:	
-							c.execute("INSERT INTO `leitura` VALUES(ID,%r,%r,%r,%r,%r,%r,CURRENT_TIMESTAMP)"%(cdc,versao,rssi,consumo_ativo,consumo_capacitivo,consumo_reativo))
+							c.execute("INSERT INTO `leitura` VALUES(ID,%r,%r,%r,%r,%r,%r,CURRENT_TIMESTAMP,%s)"%(cdc,versao,rssi,consumo_ativo,consumo_capacitivo,consumo_reativo,cdc))
 							con.commit()
 							print ( "TAD  %f inserido com sucesso"%(cdc))						
 						
@@ -89,6 +90,6 @@ while True:
 """c.execute("UPDATE `leitura` SET  `c_ativo` = %r WHERE  `leitura`.`serial` =%r"%(consumo_reativo,cdc))"""
 """c.execute('SELECT * FROM leitura WHERE serial=%r'%(cdc))"""
 	
-
+s
 
 
