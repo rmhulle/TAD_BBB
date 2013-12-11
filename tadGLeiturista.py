@@ -75,7 +75,7 @@ while True:
 			elif (leiturista.readline(12)=="ATTAD_REC0\r\n"):
 				print("Linha %d" %index)
 				rows = c.fetchone() 
-				print rows[1]
+				leiturista.write(rows[1]) 
 				index = index + 1	
 					 	
 			
