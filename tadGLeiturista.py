@@ -62,19 +62,23 @@ while True:
 	
 	if leiturista.inWaiting()> 0:
 		
-			if ( leiturista.readline(12)=="FIM\r\n"):
-				print("fim do envio")
-			elif (leiturista.readline(12)=="ATTAD_REC0\r\n"):
-				print("Linha %s", %index)
-				print rows[index]
-				index = index + 1	
-					 	
 			if (leiturista.readline(12)=="ATTAD_QTE\r\n"):
 				number_rows = c.execute('SELECT * FROM leitura')
-				rows = cursor.fetchall() 
-				print("foram encontrados %s ocorrencias", %number_rows)
-				leiturista.write("QTE%s\r\n", %number_rows)
+				
+				print("foram encontrados %s ocorrencias" %number_rows)
+				leiturista.write("QTE%s\r\n" %number_rows)
 				index = 0
+
+			elif ( leiturista.readline(12)=="FIM\r\n"):
+				print("fim do envio")
+			
+			elif (leiturista.readline(12)=="ATTAD_REC0\r\n"):
+				print("Linha %d" %index)
+				rows = c.fetchone() 
+				print rows[0]
+				index = index + 1	
+					 	
+			
 
 
 
