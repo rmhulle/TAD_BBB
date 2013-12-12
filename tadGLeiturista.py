@@ -44,7 +44,7 @@ else:
 	print("Serial Medidor Erro")"""	
 
 
-leiturista = serial.Serial('/dev/ttyUSB1', 9600)
+leiturista = serial.Serial('/dev/ttyUSB0', 9600)
 
 if ( leiturista != 0 ):
 	print("Serial leiturista OK")
@@ -52,7 +52,7 @@ else:
 	print("Serial leiturista Erro")
 
 
-con = MySQLdb.connect(host='localhost', user='root', passwd='zaruc',db='TAD')
+con = MySQLdb.connect(host='localhost', user='root', passwd='zaruc',db='teste')
 c = con.cursor()
 
 print("Banco De Dados OK")
@@ -63,7 +63,7 @@ while True:
 	if leiturista.inWaiting()> 0:
 		
 			if (leiturista.readline(12)=="ATTAD_QTE\r\n"):
-				number_rows = c.execute('SELECT * FROM leitura')
+				number_rows = c.execute('SELECT * FROM medidor')
 				
 				print("foram encontrados %s ocorrencias" %number_rows)
 				leiturista.write("QTE%s\r\n" %number_rows)
@@ -75,7 +75,8 @@ while True:
 			elif (leiturista.readline(12)=="ATTAD_REC0\r\n"):
 				print("Linha %d" %index)
 				rows = c.fetchone() 
-				leiturista.write(rows[1]) 
+				print rows
+				#leiturista.write(rows[1]) 
 				index = index + 1	
 					 	
 			
