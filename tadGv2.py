@@ -93,7 +93,7 @@ while True:
 							con.commit()
 							print ( "TAD  %d Atualizado com sucesso"%(cdc))	
 						else:	
-							c.execute("INSERT INTO `medidor` VALUES(ID,%d,%d,%d,%d,%d,%d,%d,CURRENT_TIMESTAMP)"%(versao,rssi,cdc,consumo_ativo,consumo_reativo,consumo_capacitivo,crc)))
+							c.execute("INSERT INTO `medidor` VALUES(ID,%d,%d,%d,%d,%d,%d,%d,CURRENT_TIMESTAMP)"%(versao,rssi,cdc,consumo_ativo,consumo_reativo,consumo_capacitivo,crc))
 							con.commit()
 							print ( "TAD  %d inserido com sucesso"%(cdc))						
 						
